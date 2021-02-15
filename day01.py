@@ -1,4 +1,4 @@
-filename="input1.txt"
+filename="input01.txt"
 
 def findSum(l, total=2020):
     for i in range(0,len(l)):
