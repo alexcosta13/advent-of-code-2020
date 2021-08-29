@@ -1,4 +1,5 @@
-filename="input4.txt"
+filename = "input04.txt"
+
 
 def validPassport(passport):
     fields = ['byr','iyr','eyr','hgt','hcl','ecl','pid']
@@ -7,6 +8,7 @@ def validPassport(passport):
     print('intersection',intersection)
     print(len(intersection)==len(fields))
     return len(intersection)==len(fields)
+
 
 def isHexColor(value):
     valid = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
