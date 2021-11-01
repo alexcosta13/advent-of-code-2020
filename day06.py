@@ -1,13 +1,15 @@
-filename="input6.txt"
+filename = "input6.txt"
 
-def countAnsweredQuestions(line, questions = "abcdefghijklmnopqrstuvwxyz"):
+
+def countAnsweredQuestions(line, questions="abcdefghijklmnopqrstuvwxyz"):
     answeredQuestions = 0
     for q in questions:
         if q in line:
             answeredQuestions += 1
     return answeredQuestions
 
-def countAnsweredByEveryone(l, questions = "abcdefghijklmnopqrstuvwxyz"):
+
+def countAnsweredByEveryone(l, questions="abcdefghijklmnopqrstuvwxyz"):
     answeredQuestions = 0
     for q in questions:
         flag = True
@@ -18,11 +20,12 @@ def countAnsweredByEveryone(l, questions = "abcdefghijklmnopqrstuvwxyz"):
             answeredQuestions += 1
     return answeredQuestions
 
+
 def totalAnsweredQuestionsByEveryone(lines):
     total = 0
     currentGroup = []
     for line in lines:
-        if (line == ''):
+        if line == "":
             total += countAnsweredByEveryone(currentGroup)
             currentGroup = []
         else:
@@ -30,22 +33,24 @@ def totalAnsweredQuestionsByEveryone(lines):
     total += countAnsweredByEveryone(currentGroup)
     return total
 
+
 def totalAnsweredQuestions(lines):
     total = 0
-    currentGroup = ''
+    currentGroup = ""
     for line in lines:
-        if (line == ''):
+        if line == "":
             total += countAnsweredQuestions(currentGroup)
-            currentGroup = ''
+            currentGroup = ""
         else:
             currentGroup += line
     total += countAnsweredQuestions(currentGroup)
     return total
 
+
 with open(filename) as f:
     input = f.readlines()
 input = [x.strip() for x in input]
 
-print('First part:', totalAnsweredQuestions(input))
+print("First part:", totalAnsweredQuestions(input))
 
-print('Second part:', totalAnsweredQuestionsByEveryone(input))
+print("Second part:", totalAnsweredQuestionsByEveryone(input))
