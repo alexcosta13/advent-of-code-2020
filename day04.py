@@ -1,16 +1,14 @@
-filename = "input04.txt"
+filename = "inputs/input04.txt"
 
 
-def validPassport(passport):
+def valid_passport(passport):
     fields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
     keys = passport.keys()
     intersection = [value for value in fields if value in keys]
-    print("intersection", intersection)
-    print(len(intersection) == len(fields))
     return len(intersection) == len(fields)
 
 
-def isHexColor(value):
+def is_hex_color(value):
     valid = [
         "0",
         "1",
@@ -39,9 +37,9 @@ def isHexColor(value):
     return True
 
 
-def advancedValidPassport(passport):
+def advanced_valid_passport(passport):
     fields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
-    eyeColor = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
+    eye_color = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
     keys = passport.keys()
     intersection = [value for value in fields if value in keys]
     if len(intersection) != len(fields):
@@ -55,14 +53,14 @@ def advancedValidPassport(passport):
     if passport["hgt"][-2:] != "cm" and passport["hgt"][-2:] != "in":
         return False
     if passport["hgt"][-2:] == "in":
-        if int(passport["hgt"][0:-2]) < 59 or int(passport["hgt"][0:-2]) > 76:
+        if int(passport["hgt"][:-2]) < 59 or int(passport["hgt"][:-2]) > 76:
             return False
     elif passport["hgt"][-2:] == "cm":
         if int(passport["hgt"][0:-2]) < 150 or int(passport["hgt"][0:-2]) > 193:
             return False
-    if not (isHexColor(passport["hcl"])):
+    if not (is_hex_color(passport["hcl"])):
         return False
-    if not (passport["ecl"] in eyeColor):
+    if not (passport["ecl"] in eye_color):
         return False
     if (len(passport["pid"]) != 9) or not (passport["pid"].isdigit()):
         return False
@@ -70,23 +68,29 @@ def advancedValidPassport(passport):
     return True
 
 
-def countValidPassports(lines):
-    validPassports = 0
-    currentPassport = {}
+def count_valid_passports(lines, advanced=False):
+    valid_passport_function = advanced_valid_passport if advanced else valid_passport
+    valid_passports = 0
+    current_passport = {}
     for line in lines:
-        if line == "":  # or end of file
-            print("currentPassport", currentPassport.keys())
-            if advancedValidPassport(currentPassport):
-                validPassports += 1
-            currentPassport = {}
+        if line == "":
+            if valid_passport_function(current_passport):
+                valid_passports += 1
+            current_passport = {}
         else:
             for item in line.split(" "):
-                currentPassport[item.split(":")[0]] = item.split(":")[1]
-    return validPassports
+                current_passport[item.split(":")[0]] = item.split(":")[1]
+
+    # deal with the last passport in case there is no empty line at the end of the file
+    if valid_passport_function(current_passport):
+        valid_passports += 1
+    return valid_passports
 
 
 with open(filename) as f:
     input = f.readlines()
 input = [x.strip() for x in input]
 
-print("First part:", countValidPassports(input))
+print("First part:", count_valid_passports(input))
+
+print("First part:", count_valid_passports(input, advanced=True))
