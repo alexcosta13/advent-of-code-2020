@@ -1,4 +1,4 @@
-filename = "input03.txt"
+filename = "inputs/input03.txt"
 
 
 def count_trees(lines, column_step=3, row_step=1):

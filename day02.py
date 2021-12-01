@@ -1,4 +1,4 @@
-filename = "input02.txt"
+filename = "inputs/input02.txt"
 
 
 def count_passports(lines, second_part=False):
