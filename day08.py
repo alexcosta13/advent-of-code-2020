@@ -1,4 +1,4 @@
-filename = "input8.txt"
+filename = "inputs/input08.txt"
 
 
 def acc(lines):
@@ -21,7 +21,7 @@ def acc(lines):
             i += 1
 
 
-def accFixed(lines, fix=0):
+def acc_fixed(lines, fix=0):
     acc = 0
     i = 0
     it = 0
@@ -54,7 +54,7 @@ def accFixed(lines, fix=0):
 def fixed(lines):
     fix = 0
     while True:
-        acc = accFixed(lines, fix)
+        acc = acc_fixed(lines, fix)
         fix += 1
         if acc != 0:
             return acc

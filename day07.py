@@ -1,7 +1,7 @@
-filename = "input7.txt"
+filename = "inputs/input07.txt"
 
 
-def parseLine(line):
+def parse_line(line):
     container = line.split(" bags contain ")[0]
     list = line.split(" bags contain ")[1]
     list = list.split(", ")
@@ -13,7 +13,7 @@ def parseLine(line):
     return [container, list]
 
 
-def parseLine2(line):
+def parse_line2(line):
     container = line.split(" bags contain ")[0]
     list = line.split(" bags contain ")[1]
     list = list.split(", ")
@@ -26,53 +26,52 @@ def parseLine2(line):
     return [container, list]
 
 
-def parseFile(lines):
+def parse_file(lines):
     containers = []
     for line in lines:
-        containers.append(parseLine(line))
+        containers.append(parse_line(line))
     return containers
 
 
-def parseFile2(lines):
+def parse_file2(lines):
     containers = []
     for line in lines:
-        containers.append(parseLine2(line))
+        containers.append(parse_line2(line))
     return containers
 
 
-def countBag(containers, bag):
+def count_bag(containers, bag):
     bags = 1
     for container in containers:
         if container[0] == bag:
             # if not container[1]:
             #    return 1
             for b in container[1]:
-                bags += int(b[0]) * countBag(containers, b[1])
+                bags += int(b[0]) * count_bag(containers, b[1])
     return bags
 
 
-def findContainers(lines, bag="shiny gold"):
-    containers = parseFile(lines)
-    possibleContainers = [bag]
+def find_containers(lines, bag="shiny gold"):
+    containers = parse_file(lines)
+    possible_containers = [bag]
 
-    for container in possibleContainers:
+    for container in possible_containers:
         for b in containers:
             if container in b[1]:
-                possibleContainers.append(b[0])
+                possible_containers.append(b[0])
 
-    return len(list(dict.fromkeys(possibleContainers))) - 1
+    return len(list(dict.fromkeys(possible_containers))) - 1
 
 
-def countBags(lines, bag="shiny gold"):
-    totalBags = 0
-    containers = parseFile2(lines)
-    return countBag(containers, bag) - 1
+def count_bags(lines, bag="shiny gold"):
+    containers = parse_file2(lines)
+    return count_bag(containers, bag) - 1
 
 
 with open(filename) as f:
     input = f.readlines()
 input = [x.strip() for x in input]
 
-print("First part:", findContainers(input))
+print("First part:", find_containers(input))
 
-print("Second part:", countBags(input))
+print("Second part:", count_bags(input))

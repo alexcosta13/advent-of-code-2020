@@ -1,49 +1,49 @@
-filename = "input6.txt"
+filename = "inputs/input06.txt"
 
 
-def countAnsweredQuestions(line, questions="abcdefghijklmnopqrstuvwxyz"):
-    answeredQuestions = 0
+def count_answered_questions(line, questions="abcdefghijklmnopqrstuvwxyz"):
+    answered_questions = 0
     for q in questions:
         if q in line:
-            answeredQuestions += 1
-    return answeredQuestions
+            answered_questions += 1
+    return answered_questions
 
 
-def countAnsweredByEveryone(l, questions="abcdefghijklmnopqrstuvwxyz"):
-    answeredQuestions = 0
+def count_answered_by_everyone(l, questions="abcdefghijklmnopqrstuvwxyz"):
+    answered_questions = 0
     for q in questions:
         flag = True
         for item in l:
             if q not in item:
                 flag = False
         if flag:
-            answeredQuestions += 1
-    return answeredQuestions
+            answered_questions += 1
+    return answered_questions
 
 
-def totalAnsweredQuestionsByEveryone(lines):
+def total_answered_questions_by_everyone(lines):
     total = 0
-    currentGroup = []
+    current_group = []
     for line in lines:
         if line == "":
-            total += countAnsweredByEveryone(currentGroup)
-            currentGroup = []
+            total += count_answered_by_everyone(current_group)
+            current_group = []
         else:
-            currentGroup.append(line)
-    total += countAnsweredByEveryone(currentGroup)
+            current_group.append(line)
+    total += count_answered_by_everyone(current_group)
     return total
 
 
-def totalAnsweredQuestions(lines):
+def total_answered_questions(lines):
     total = 0
-    currentGroup = ""
+    current_group = ""
     for line in lines:
         if line == "":
-            total += countAnsweredQuestions(currentGroup)
-            currentGroup = ""
+            total += count_answered_questions(current_group)
+            current_group = ""
         else:
-            currentGroup += line
-    total += countAnsweredQuestions(currentGroup)
+            current_group += line
+    total += count_answered_questions(current_group)
     return total
 
 
@@ -51,6 +51,6 @@ with open(filename) as f:
     input = f.readlines()
 input = [x.strip() for x in input]
 
-print("First part:", totalAnsweredQuestions(input))
+print("First part:", total_answered_questions(input))
 
-print("Second part:", totalAnsweredQuestionsByEveryone(input))
+print("Second part:", total_answered_questions_by_everyone(input))
