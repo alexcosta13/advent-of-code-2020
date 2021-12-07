@@ -1,4 +1,4 @@
-filename = "input11.txt"
+filename = "inputs/input11.txt"
 
 
 def occupied(lines, x, y, direction):
@@ -18,7 +18,7 @@ def occupied(lines, x, y, direction):
             distance += 1
 
 
-def count_adjacents(lines, x, y):
+def count_adjacents_advanced(lines, x, y):
     adjacents = 0
     directions = [
         (i, j) for i in range(-1, 2) for j in range(-1, 2) if (i, j) != (0, 0)
@@ -29,14 +29,31 @@ def count_adjacents(lines, x, y):
     return adjacents
 
 
-def change_seats(lines):
+def count_adjacents(lines, x, y):
+    adjacents = 0
+    for i in range(-1, 2):
+        for j in range(-1, 2):
+            idi = x + i
+            idj = y + j
+            if not i and not j:
+                pass
+            elif idi < 0 or idj < 0 or idi >= len(lines) or idj >= len(lines[0]):
+                pass
+            elif lines[idi][idj] == "#":
+                adjacents += 1
+    return adjacents
+
+
+def change_seats(lines, advanced=False):
     l = []
+    tolerance = 5 if advanced else 4
+    count = count_adjacents_advanced if advanced else count_adjacents
     for i in range(len(lines)):
         line = ""
         for j in range(len(lines[0])):
-            if lines[i][j] == "L" and count_adjacents(lines, i, j) == 0:
+            if lines[i][j] == "L" and count(lines, i, j) == 0:
                 line += "#"
-            elif lines[i][j] == "#" and count_adjacents(lines, i, j) >= 5:
+            elif lines[i][j] == "#" and count(lines, i, j) >= tolerance:
                 line += "L"
             else:
                 line += lines[i][j]
@@ -51,10 +68,10 @@ def count_seats(lines, occupied="#"):
     return total
 
 
-def occupied_seats(lines):
+def occupied_seats(lines, advanced=False):
     l = list(lines)
     while True:
-        newList = change_seats(l)
+        newList = change_seats(l, advanced)
         if newList == l:
             break
         else:
@@ -67,4 +84,6 @@ if __name__ == "__main__":
         input = f.readlines()
     input = [x.strip() for x in input]
 
-    print("Second part:", occupied_seats(input))
+    print("First part:", occupied_seats(input))
+
+    print("Second part:", occupied_seats(input, advanced=True))
