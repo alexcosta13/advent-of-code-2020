@@ -1,9 +1,7 @@
-filename = "input12.txt"
+filename = "inputs/input12.txt"
 
 
-def rotate(directionX, directionY, instruction, value):
-    x = directionX
-    y = directionY
+def rotate(x, y, instruction, value):
     if instruction == "L":
         for _ in range(int(value / 90)):
             x, y = -y, x
@@ -13,11 +11,9 @@ def rotate(directionX, directionY, instruction, value):
     return x, y
 
 
-def manhattanDistance(lines):
-    positionX = 0
-    positionY = 0
-    directionX = 1
-    directionY = 0
+def basic(lines):
+    positionX, positionY = 0, 0
+    directionX, directionY = 1, 0
     for line in lines:
         instruction, value = line[0], int(line[1:])
         if instruction == "E":
@@ -36,9 +32,32 @@ def manhattanDistance(lines):
     return abs(positionX) + abs(positionY)
 
 
+def advanced(lines):
+    waypointX, waypointY = 10, 1
+    positionX, positionY = 0, 0
+    for line in lines:
+        instruction, value = line[0], int(line[1:])
+        if instruction == "E":
+            waypointX += value
+        elif instruction == "W":
+            waypointX -= value
+        elif instruction == "N":
+            waypointY += value
+        elif instruction == "S":
+            waypointY -= value
+        elif instruction == "F":
+            positionX += waypointX * value
+            positionY += waypointY * value
+        else:
+            waypointX, waypointY = rotate(waypointX, waypointY, instruction, value)
+    return abs(positionX) + abs(positionY)
+
+
 if __name__ == "__main__":
     with open(filename) as f:
         input = f.readlines()
     input = [x.strip() for x in input]
 
-    print("First part:", manhattanDistance(input))
+    print("First part:", basic(input))
+
+    print("Second part:", advanced(input))

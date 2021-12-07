@@ -1,7 +1,7 @@
-filename = "input14.txt"
+filename = "inputs/input14.txt"
 
 
-def numToBit(num):
+def num_to_bit(num):
     bits = []
     coeff = [2 ** i for i in range(35, -1, -1)]
     for c in coeff:
@@ -13,7 +13,7 @@ def numToBit(num):
     return bits
 
 
-def bitToNum(bit):
+def bit_to_num(bit):
     num = 0
     coeff = [2 ** i for i in range(35, -1, -1)]
     for b, c in zip(bit, coeff):
@@ -22,30 +22,30 @@ def bitToNum(bit):
 
 
 def mask(num, mask):
-    bit = numToBit(num)
+    bit = num_to_bit(num)
     for b, m in enumerate(mask):
         if m == "0":
             bit[b] = 0
         elif m == "1":
             bit[b] = 1
-    return bitToNum(bit)
+    return bit_to_num(bit)
 
 
-def bitmaksSum(lines):
-    currentMask = ["X"] * 36
+def bitmask_sum(lines):
+    current_mask = ["X"] * 36
     memory = {}
     for line in lines:
         instruction, value = line.split(" = ")[0], line.split(" = ")[1]
         if instruction == "mask":
-            currentMask = [c for c in value]
+            current_mask = [c for c in value]
         else:
             index = instruction[4:-1]
-            memory[index] = mask(int(value), currentMask)
+            memory[index] = mask(int(value), current_mask)
     return sum(memory.values())
 
 
 def addresses(index, mask):
-    bit = numToBit(index)
+    bit = num_to_bit(index)
     for b, m in enumerate(mask):
         if m == "1":
             bit[b] = 1
@@ -64,18 +64,18 @@ def addresses(index, mask):
     return addresses
 
 
-def addressDecoder(lines):
-    currentMask = ["X"] * 36
+def address_decoder(lines):
+    current_mask = ["X"] * 36
     memory = {}
     for line in lines:
         instruction, value = line.split(" = ")[0], line.split(" = ")[1]
         if instruction == "mask":
-            currentMask = [c for c in value]
+            current_mask = [c for c in value]
         else:
             index = instruction[4:-1]
-            add = addresses(int(index), currentMask)
+            add = addresses(int(index), current_mask)
             for a in add:
-                i = bitToNum(a)
+                i = bit_to_num(a)
                 memory[i] = int(value)
     return sum(memory.values())
 
@@ -85,6 +85,6 @@ if __name__ == "__main__":
         input = f.readlines()
     input = [x.strip() for x in input]
 
-    print("First part:", bitmaksSum(input))
+    print("First part:", bitmask_sum(input))
 
-    print("Second part:", addressDecoder(input))
+    print("Second part:", address_decoder(input))
