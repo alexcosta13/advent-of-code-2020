@@ -1,4 +1,4 @@
-filename = "input21.txt"
+filename = "inputs/input21.txt"
 
 
 def intersection(list1, list2):
