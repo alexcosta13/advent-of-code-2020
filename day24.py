@@ -1,4 +1,4 @@
-filename = "input24.txt"
+filename = "inputs/input24.txt"
 
 
 def line_to_coord(line):
@@ -27,7 +27,7 @@ def line_to_coord(line):
     return ew, ns
 
 
-def countAdjacents(tile, floor):
+def count_adjacents(tile, floor):
     black = 0
     neighbors = [(2, 0), (-2, 0), (1, 1), (-1, 1), (1, -1), (-1, -1)]
     for neighbor in neighbors:
@@ -48,10 +48,10 @@ def art_exhibit(floor):
     for tile in new_floor:
         new_floor[tile] = floor[tile] if tile in floor else 0
     for tile in new_floor:
-        if countAdjacents(tile, floor) == 2:
+        if count_adjacents(tile, floor) == 2:
             new_floor[tile] = 1
         elif tile in floor and (
-            countAdjacents(tile, floor) == 0 or countAdjacents(tile, floor) > 2
+            count_adjacents(tile, floor) == 0 or count_adjacents(tile, floor) > 2
         ):
             new_floor[tile] = 0
     new_floor = {k: v for k, v in new_floor.items() if v}
@@ -66,7 +66,7 @@ def turn_tiles(lines, days=0):
             floor.pop((ew, ns), None)
         else:
             floor[(ew, ns)] = 1
-    for i in range(days):
+    for _ in range(days):
         floor = art_exhibit(floor)
     return len(floor)
 
